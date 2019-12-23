@@ -1,7 +1,7 @@
 name: digit_to_persian_word
 description: Flutter package for changing digit (up to 14 digits) to the Persian word Convenient and practical.
-version: 1.0.0
-author: Resfandiari<resfandiari.dev@gamil.com>
+version: 1.0.3
+author: Resfandiari <resfandiari.dev@gamil.com>
 homepage: https://github.com/resfandiari/digit_to_persian_word
 
 environment:
