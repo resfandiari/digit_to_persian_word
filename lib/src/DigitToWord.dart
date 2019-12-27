@@ -1,732 +1,279 @@
-import 'package:flutter/material.dart';
+enum StrType { NumWord, StrWord }
 
-///This class is for convert digit to persian word
-///  ex: DigitToWord.change(digit: "123,456,789") => 123 میلیون و 456 هزار و 789 تومان
-///  ex: DigitToWord.change(digit: "123.456.789",regExp:".") => 123 میلیون و 456 هزار و 789 تومان
 class DigitToWord {
-  static change(
-      {@required String digit,
-      String regExp: ',',
-      String emptyMessage: "",
-      String biggerThanCapacity: "digit lenght must be less than 14"}) {
-    ///variable
-    final String onesAnd = " تومان";
-    final String thousandsAnd = " هزار و ";
-    final String thousandsCom = " هزار تومان ";
-    final String millionsAnd = " میلیون و ";
-    final String millionsCom = " میلیون تومان ";
-    final String billionsAnd = " میلیارد و ";
-    final String billionsCom = " میلیارد تومان";
+  static String toWord(String number, StrType type,
+      {String separator: ',',
+        bool isMoney: false,
+        String biggerThanCapacity: "طول عدد باید کمتر از 16 رقم باشد."}) {
 
-    ///if the first num be 0
-    if (digit != null && digit.length != 0 && digit[0] == "0")
-      return "the first num must not be 0";
+    String _words = "";
+    String _result = "";
 
-    ///remove ',' symbol of text
-    String numInt = digit.replaceAll(regExp, '');
 
-    ///length numInt
-    int length = numInt.length;
-    String word = "";
-    switch (length) {
-      case 0:
-        word = emptyMessage;
-        break;
-      case 1:
-      case 2:
-      case 3:
-        word = numInt + onesAnd;
-        break;
-      case 4:
-      case 5:
-      case 6:
-        if (numInt.substring(length - 3, length).contains("000")) {
-          word = numInt.substring(0, length - 3) + thousandsCom;
-        } else if (numInt.substring(length - 3, length - 1).contains("00")) {
-          word = numInt.substring(0, length - 3) +
-              thousandsAnd +
-              numInt[length - 1] +
-              onesAnd;
-        } else if (numInt.substring(length - 3, length - 2).contains("0")) {
-          word = numInt.substring(0, length - 3) +
-              thousandsAnd +
-              numInt.substring(length - 2, length) +
-              onesAnd;
-        } else {
-          word = numInt.substring(0, length - 3) +
-              thousandsAnd +
-              numInt.substring(length - 3, length) +
-              onesAnd;
-        }
-        break;
-      case 7:
-      case 8:
-      case 9:
-        if (numInt.substring(length - 6, length - 3).contains("000")) {
-          if (numInt.substring(length - 3, length).contains("000")) {
-            word = (numInt.substring(0, length - 6) + millionsCom);
-          } else if (numInt.substring(length - 3, length - 1).contains("00")) {
-            word = (numInt.substring(0, length - 6) +
-                millionsAnd +
-                numInt.substring(length - 1, length) +
-                onesAnd);
-          } else if (numInt.substring(length - 3, length - 2).contains("0")) {
-            word = (numInt.substring(0, length - 6) +
-                millionsAnd +
-                numInt.substring(length - 2, length) +
-                onesAnd);
-          } else {
-            word = (numInt.substring(0, length - 6) +
-                millionsAnd +
-                numInt.substring(length - 3, length) +
-                onesAnd);
-          }
-        } else if (numInt.substring(length - 6, length - 4).contains("00")) {
-          if (numInt.substring(length - 3, length).contains("000")) {
-            word = (numInt.substring(0, length - 6) +
-                millionsAnd +
-                numInt.substring(length - 4, length - 3) +
-                thousandsCom);
-          } else if (numInt.substring(length - 3, length - 1).contains("00")) {
-            word = (numInt.substring(0, length - 6) +
-                millionsAnd +
-                numInt.substring(length - 4, length - 3) +
-                thousandsAnd +
-                numInt.substring(length - 1, length) +
-                onesAnd);
-          } else if (numInt.substring(length - 3, length - 2).contains("0")) {
-            word = (numInt.substring(0, length - 6) +
-                millionsAnd +
-                numInt.substring(length - 4, length - 3) +
-                thousandsAnd +
-                numInt.substring(length - 2, length) +
-                onesAnd);
-          } else {
-            word = (numInt.substring(0, length - 6) +
-                millionsAnd +
-                numInt.substring(length - 4, length - 3) +
-                thousandsAnd +
-                numInt.substring(length - 3, length) +
-                onesAnd);
-          }
-        } else if (numInt.substring(length - 6, length - 5).contains("0")) {
-          if (numInt.substring(length - 3, length).contains("000")) {
-            word = (numInt.substring(0, length - 6) +
-                millionsAnd +
-                numInt.substring(length - 5, length - 3) +
-                thousandsCom);
-          } else if (numInt.substring(length - 3, length - 1).contains("00")) {
-            word = (numInt.substring(0, length - 6) +
-                millionsAnd +
-                numInt.substring(length - 5, length - 3) +
-                thousandsAnd +
-                numInt.substring(length - 1, length) +
-                onesAnd);
-          } else if (numInt.substring(length - 3, length - 2).contains("0")) {
-            word = (numInt.substring(0, length - 6) +
-                millionsAnd +
-                numInt.substring(length - 5, length - 3) +
-                thousandsAnd +
-                numInt.substring(length - 2, length) +
-                onesAnd);
-          } else {
-            word = (numInt.substring(0, length - 6) +
-                millionsAnd +
-                numInt.substring(length - 5, length - 3) +
-                thousandsAnd +
-                numInt.substring(length - 3, length) +
-                onesAnd);
-          }
-        } else {
-          if (numInt.substring(length - 3, length).contains("000")) {
-            word = (numInt.substring(0, length - 6) +
-                millionsAnd +
-                numInt.substring(length - 6, length - 3) +
-                thousandsCom);
-          } else if (numInt.substring(length - 3, length - 1).contains("00")) {
-            word = (numInt.substring(0, length - 6) +
-                millionsAnd +
-                numInt.substring(length - 6, length - 3) +
-                thousandsAnd +
-                numInt.substring(length - 1, length) +
-                onesAnd);
-          } else if (numInt.substring(length - 3, length - 2).contains("0")) {
-            word = (numInt.substring(0, length - 6) +
-                millionsAnd +
-                numInt.substring(length - 6, length - 3) +
-                thousandsAnd +
-                numInt.substring(length - 2, length) +
-                onesAnd);
-          } else {
-            word = (numInt.substring(0, length - 6) +
-                millionsAnd +
-                numInt.substring(length - 6, length - 3) +
-                thousandsAnd +
-                numInt.substring(length - 3, length) +
-                onesAnd);
-          }
-        }
-        break;
-
-      case 10:
-      case 11:
-      case 12:
-        if (numInt.substring(length - 9, length - 6).contains("000")) {
-          if (numInt.substring(length - 6, length - 3).contains("000")) {
-            if (numInt.substring(length - 3, length).contains("000")) {
-              word = (numInt.substring(0, length - 9) + billionsCom);
-            } else if (numInt
-                .substring(length - 3, length - 1)
-                .contains("00")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 1, length) +
-                  onesAnd);
-            } else if (numInt.substring(length - 3, length - 2).contains("0")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 2, length) +
-                  onesAnd);
-            } else {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 3, length) +
-                  onesAnd);
-            }
-          } else if (numInt.substring(length - 6, length - 4).contains("00")) {
-            if (numInt.substring(length - 3, length).contains("000")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 4, length - 3) +
-                  thousandsCom);
-            } else if (numInt
-                .substring(length - 3, length - 1)
-                .contains("00")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 4, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 1, length) +
-                  onesAnd);
-            } else if (numInt.substring(length - 3, length - 2).contains("0")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 4, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 2, length) +
-                  onesAnd);
-            } else {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 4, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 3, length) +
-                  onesAnd);
-            }
-          } else if (numInt.substring(length - 6, length - 5).contains("0")) {
-            if (numInt.substring(length - 3, length).contains("000")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 5, length - 3) +
-                  thousandsCom);
-            } else if (numInt
-                .substring(length - 3, length - 1)
-                .contains("00")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 5, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 1, length) +
-                  onesAnd);
-            } else if (numInt.substring(length - 3, length - 2).contains("0")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 5, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 2, length) +
-                  onesAnd);
-            } else {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 5, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 3, length) +
-                  onesAnd);
-            }
-          } else {
-            if (numInt.substring(length - 3, length).contains("000")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 6, length - 3) +
-                  thousandsCom);
-            } else if (numInt
-                .substring(length - 3, length - 1)
-                .contains("00")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 6, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 1, length) +
-                  onesAnd);
-            } else if (numInt.substring(length - 3, length - 2).contains("0")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 6, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 2, length) +
-                  onesAnd);
-            } else {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 6, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 3, length) +
-                  onesAnd);
-            }
-          }
-        } else if (numInt.substring(length - 9, length - 7).contains("00")) {
-          if (numInt.substring(length - 6, length - 3).contains("000")) {
-            if (numInt.substring(length - 3, length).contains("000")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 7, length - 6) +
-                  millionsCom);
-            } else if (numInt
-                .substring(length - 3, length - 1)
-                .contains("00")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 7, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 1, length) +
-                  onesAnd);
-            } else if (numInt.substring(length - 3, length - 2).contains("0")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 7, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 2, length) +
-                  onesAnd);
-            } else {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 7, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 3, length) +
-                  onesAnd);
-            }
-          } else if (numInt.substring(length - 6, length - 4).contains("00")) {
-            if (numInt.substring(length - 3, length).contains("000")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 7, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 4, length - 3) +
-                  thousandsCom);
-            } else if (numInt
-                .substring(length - 3, length - 1)
-                .contains("00")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 7, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 4, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 1, length) +
-                  onesAnd);
-            } else if (numInt.substring(length - 3, length - 2).contains("0")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 7, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 4, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 2, length) +
-                  onesAnd);
-            } else {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 7, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 4, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 3, length) +
-                  onesAnd);
-            }
-          } else if (numInt.substring(length - 6, length - 5).contains("0")) {
-            if (numInt.substring(length - 3, length).contains("000")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 7, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 5, length - 3) +
-                  thousandsAnd);
-            } else if (numInt
-                .substring(length - 3, length - 1)
-                .contains("00")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 7, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 5, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 1, length) +
-                  onesAnd);
-            } else if (numInt.substring(length - 3, length - 2).contains("0")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 7, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 5, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 2, length) +
-                  onesAnd);
-            } else {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 7, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 5, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 3, length) +
-                  onesAnd);
-            }
-          } else {
-            if (numInt.substring(length - 3, length).contains("000")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 7, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 6, length - 3) +
-                  thousandsAnd);
-            } else if (numInt
-                .substring(length - 3, length - 1)
-                .contains("00")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 7, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 6, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 1, length) +
-                  onesAnd);
-            } else if (numInt.substring(length - 3, length - 2).contains("0")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 7, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 6, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 2, length) +
-                  onesAnd);
-            } else {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 7, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 6, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 3, length) +
-                  onesAnd);
-            }
-          }
-        } else if (numInt.substring(length - 9, length - 8).contains("0")) {
-          if (numInt.substring(length - 6, length - 3).contains("000")) {
-            if (numInt.substring(length - 3, length).contains("000")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 8, length - 6) +
-                  millionsCom);
-            } else if (numInt
-                .substring(length - 3, length - 1)
-                .contains("00")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 8, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 1, length) +
-                  onesAnd);
-            } else if (numInt.substring(length - 3, length - 2).contains("0")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 8, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 2, length) +
-                  onesAnd);
-            } else {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 8, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 3, length) +
-                  onesAnd);
-            }
-          } else if (numInt.substring(length - 6, length - 4).contains("00")) {
-            if (numInt.substring(length - 3, length).contains("000")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 8, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 4, length - 3) +
-                  thousandsCom);
-            } else if (numInt
-                .substring(length - 3, length - 1)
-                .contains("00")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 8, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 4, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 1, length) +
-                  onesAnd);
-            } else if (numInt.substring(length - 3, length - 2).contains("0")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 8, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 4, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 2, length) +
-                  onesAnd);
-            } else {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 8, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 4, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 3, length) +
-                  onesAnd);
-            }
-          } else if (numInt.substring(length - 6, length - 5).contains("0")) {
-            if (numInt.substring(length - 3, length).contains("000")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 8, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 5, length - 3) +
-                  thousandsAnd);
-            } else if (numInt
-                .substring(length - 3, length - 1)
-                .contains("00")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 8, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 5, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 1, length) +
-                  onesAnd);
-            } else if (numInt.substring(length - 3, length - 2).contains("0")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 8, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 5, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 2, length) +
-                  onesAnd);
-            } else {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 8, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 5, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 3, length) +
-                  onesAnd);
-            }
-          } else {
-            if (numInt.substring(length - 3, length).contains("000")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 8, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 6, length - 3) +
-                  thousandsAnd);
-            } else if (numInt
-                .substring(length - 3, length - 1)
-                .contains("00")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 8, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 6, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 1, length) +
-                  onesAnd);
-            } else if (numInt.substring(length - 3, length - 2).contains("0")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 8, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 6, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 2, length) +
-                  onesAnd);
-            } else {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 8, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 6, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 3, length) +
-                  onesAnd);
-            }
-          }
-        } else {
-          if (numInt.substring(length - 6, length - 3).contains("000")) {
-            if (numInt.substring(length - 3, length).contains("000")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 9, length - 6) +
-                  millionsCom);
-            } else if (numInt
-                .substring(length - 3, length - 1)
-                .contains("00")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 9, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 1, length) +
-                  onesAnd);
-            } else if (numInt.substring(length - 3, length - 2).contains("0")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 9, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 2, length) +
-                  onesAnd);
-            } else {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 9, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 3, length) +
-                  onesAnd);
-            }
-          } else if (numInt.substring(length - 6, length - 4).contains("00")) {
-            if (numInt.substring(length - 3, length).contains("000")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 9, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 4, length - 3) +
-                  thousandsCom);
-            } else if (numInt
-                .substring(length - 3, length - 1)
-                .contains("00")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 9, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 4, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 1, length) +
-                  onesAnd);
-            } else if (numInt.substring(length - 3, length - 2).contains("0")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 9, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 4, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 2, length) +
-                  onesAnd);
-            } else {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 9, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 4, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 3, length) +
-                  onesAnd);
-            }
-          } else if (numInt.substring(length - 6, length - 5).contains("0")) {
-            if (numInt.substring(length - 3, length).contains("000")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 9, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 5, length - 3) +
-                  thousandsAnd);
-            } else if (numInt
-                .substring(length - 3, length - 1)
-                .contains("00")) {
-              word = (numInt.substring(0, length - length - 1) +
-                  billionsAnd +
-                  numInt.substring(length - 9, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 5, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 1, length) +
-                  onesAnd);
-            } else if (numInt.substring(length - 3, length - 2).contains("0")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 9, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 5, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 2, length) +
-                  onesAnd);
-            } else {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 9, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 5, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 3, length) +
-                  onesAnd);
-            }
-          } else {
-            if (numInt.substring(length - 3, length).contains("000")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 9, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 6, length - 3) +
-                  thousandsCom);
-            } else if (numInt
-                .substring(length - 3, length - 1)
-                .contains("00")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 9, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 6, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 1, length) +
-                  onesAnd);
-            } else if (numInt.substring(length - 3, length - 2).contains("0")) {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 9, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 6, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 2, length) +
-                  onesAnd);
-            } else {
-              word = (numInt.substring(0, length - 9) +
-                  billionsAnd +
-                  numInt.substring(length - 9, length - 6) +
-                  millionsAnd +
-                  numInt.substring(length - 6, length - 3) +
-                  thousandsAnd +
-                  numInt.substring(length - 3, length) +
-                  onesAnd);
-            }
-          }
-        }
-        break;
-      default:
-        word = biggerThanCapacity;
+    if (number == null || number == "") {
+      return '';
     }
-    return word;
+    if (number.length >= 15) {
+      return biggerThanCapacity;
+    }
+
+    ///remove separator ','  symbol of text
+    String numInt = number.replaceAll(separator, '');
+
+    switch (type) {
+      case StrType.NumWord:
+        _words = _NumWord.toWord(numInt, isMoney);
+        break;
+      case StrType.StrWord:
+        _words = _StrWord.toWord(numInt, isMoney);
+        break;
+    }
+
+    _result = _words.replaceAll("^\\s+", "").replaceAll("\\b\\s{2,}\\b", " ");
+
+    return _result.trim();
+  }
+}
+
+
+class _NumWord {
+  static String toWord(String inputNumber, bool isMoney) {
+    try {
+      int number = int.parse(inputNumber);
+      if (number == 0) {
+        return "صفر";
+      }
+      String fullNumber = inputNumber;
+      for (var i = 0; i < 15 - fullNumber.length; i++) {
+        inputNumber = "0" + inputNumber;
+      }
+      fullNumber = inputNumber;
+
+      int trillion = int.parse(fullNumber.substring(0, 3));
+      int billions = int.parse(fullNumber.substring(3, 6));
+      int millions = int.parse(fullNumber.substring(6, 9));
+      int hundredThousands = int.parse(fullNumber.substring(9, 12));
+      int thousands = int.parse(fullNumber.substring(12, 15));
+
+      String checkTrillion;
+
+      switch (trillion) {
+        case 0:
+          checkTrillion = "";
+          break;
+        default:
+          checkTrillion = "$trillion" + " تریلیون و";
+      }
+      String result = checkTrillion;
+
+      String checkBillions;
+
+      switch (billions) {
+        case 0:
+          checkBillions = "";
+          break;
+        default:
+          checkBillions = "$billions" + " میلیارد و";
+      }
+      result += checkBillions;
+
+      String checkMillions;
+
+      switch (millions) {
+        case 0:
+          checkMillions = "";
+          break;
+        default:
+          checkMillions = "$millions" + " میلیون و";
+      }
+      result = result + checkMillions;
+
+      String checkHundredThousands;
+      switch (hundredThousands) {
+        case 0:
+          checkHundredThousands = "";
+          break;
+        default:
+          checkHundredThousands = "$hundredThousands" + " هزار و";
+      }
+      result = result + checkHundredThousands;
+
+      if (thousands == 0 && result.endsWith(" و")) {
+        result = result.substring(0, result.length - 2);
+      }
+      String checkThousand;
+      switch (thousands) {
+        case 0:
+          checkThousand = "";
+          break;
+        default:
+          checkThousand = "$thousands";
+      }
+
+      result = result + "$checkThousand";
+
+      return isMoney ? result + " تومان" : result;
+    } on FormatException catch (e) {
+      print(e.toString());
+      return "فرمت ورودی اشتباه است.";
+    }
+  }
+}
+
+class _StrWord {
+  static String toWord(String inputNumber, bool isMoney) {
+    try {
+      int number = int.parse(inputNumber);
+      if (number == 0) {
+        return "صفر";
+      }
+      String fullNumber = inputNumber;
+      for (var i = 0; i < 15 - fullNumber.length; i++) {
+        inputNumber = "0" + inputNumber;
+      }
+      fullNumber = inputNumber;
+
+      int trillion = int.parse(fullNumber.substring(0, 3));
+      int billions = int.parse(fullNumber.substring(3, 6));
+      int millions = int.parse(fullNumber.substring(6, 9));
+      int hundredThousands = int.parse(fullNumber.substring(9, 12));
+      int thousands = int.parse(fullNumber.substring(12, 15));
+
+      String checkTrillion;
+
+      switch (trillion) {
+        case 0:
+          checkTrillion = "";
+          break;
+        case 1:
+          checkTrillion = _convertNum(trillion) + " تریلیون ";
+          break;
+        default:
+          checkTrillion = _convertNum(trillion) + " تریلیون و";
+      }
+      String result = checkTrillion;
+
+      String checkBillions;
+
+      switch (billions) {
+        case 0:
+          checkBillions = "";
+          break;
+        default:
+          checkBillions = _convertNum(billions) + " میلیارد و";
+      }
+      result += checkBillions;
+
+      String checkMillions;
+
+      switch (millions) {
+        case 0:
+          checkMillions = "";
+          break;
+        default:
+          checkMillions = _convertNum(millions) + " میلیون و";
+      }
+      result = result + checkMillions;
+
+      String checkHundredThousands;
+      switch (hundredThousands) {
+        case 0:
+          checkHundredThousands = "";
+          break;
+        case 1:
+          checkHundredThousands = "هزار و";
+          break;
+        default:
+          checkHundredThousands =
+              _convertNum(hundredThousands) + " هزار و";
+      }
+      result = result + checkHundredThousands;
+
+      String checkThousand;
+      checkThousand = _convertNum(thousands);
+      result = result + checkThousand;
+
+      if (result.endsWith(" و")) {
+        result = result.substring(0, result.length - 2);
+      }
+
+      return isMoney ? result + " تومان" : result;
+    } on FormatException catch (e) {
+      print(e.toString());
+      return "فرمت ورودی اشتباه است.";
+    }
+  }
+
+  static String _convertNum(int number) {
+    List<String> tensNames = [
+      "",
+      " ده و",
+      " بیست و",
+      " سی و",
+      " چهل و",
+      " پنجاه و",
+      " شصت و",
+      " هفتاد و",
+      " هشتاد و",
+      " نود و"
+    ];
+
+    List<String> numNames = [
+      "",
+      " یک",
+      " دو",
+      " سه",
+      " چهار",
+      " پنج",
+      " شش",
+      " هفت",
+      " هشت",
+      " نه",
+      " ده",
+      " یازده",
+      " دوازده",
+      " سیزده",
+      " چهارده",
+      " پانزده",
+      " شانزده",
+      " هفده",
+      " هجده",
+      " نوزده"
+    ];
+
+    List<String> thousandsNames = [
+      "",
+      " صد و",
+      " دویست و",
+      " سیصد و",
+      " چهارصد و",
+      " پانصد و",
+      " ششصد و",
+      " هفتصد و",
+      " هشتصد و",
+      " نهصد و"
+    ];
+    String soFar;
+    if (number % 100 < 20) {
+      soFar = numNames[number % 100];
+      number = number ~/ 100;
+    } else {
+      soFar = numNames[number % 10];
+      number = number ~/ 10;
+      soFar = tensNames[number % 10] + soFar;
+      number = number ~/ 10;
+    }
+    if (number == 0) {
+      if (soFar.endsWith(" و")) {
+        soFar = soFar.substring(0, soFar.length - 2);
+      }
+      return soFar;
+    }
+    var str = "";
+    str = (thousandsNames[number] + soFar);
+    if (str.endsWith(" و") || str.endsWith("و ")) {
+      str = str.substring(0, str.length - 2);
+    }
+    return str;
   }
 }
