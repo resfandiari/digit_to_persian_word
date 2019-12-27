@@ -1,3 +1,6 @@
+## [1.0.5] - 27-Dec-2019
+--------------------------------
+- change image of demo
 ## [1.0.4] - 27-Dec-2019
 --------------------------------
 - fix bug DigitToWord and add new feature 

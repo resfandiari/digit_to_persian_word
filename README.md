@@ -4,12 +4,12 @@ The Flutter package for changing digit to the Persian word and add separate to a
 
 demo:
 
-![](demo.png)
+![](example.png)
 
 ## Add dependency
 ```
 dependencies:
-  digit_to_persian_word: ^1.0.4
+  digit_to_persian_word: ^1.0.5
 ```
 ## Usage
 ```dart
