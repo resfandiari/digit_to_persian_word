@@ -1,7 +1,7 @@
 enum StrType { NumWord, StrWord }
 
 class DigitToWord {
-  static String toWord(String number, StrType type,
+  static String toWord(String? number, StrType type,
       {String separator: ',',
         bool isMoney: false,
         String biggerThanCapacity: "طول عدد باید کمتر از 16 رقم باشد."}) {

@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:digit_to_persian_word/digit_to_persian_word.dart';
-
+import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
 
@@ -11,7 +10,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-
         primarySwatch: Colors.blue,
       ),
       home: MyHomePage(title: 'Flutter Digit To Persian Word'),
@@ -21,40 +19,37 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key? key, this.title}) : super(key: key);
 
-  final String title;
+  final String? title;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  TextEditingController _controller;
-  TextEditingController _controllerInputFromat;
+  TextEditingController? _controller;
+  TextEditingController? _controllerInputFromat;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _controller = new TextEditingController();
     _controllerInputFromat = new TextEditingController();
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(widget.title!),
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
               child: TextFormField(
                 keyboardType: TextInputType.number,
                 controller: _controller,
@@ -62,110 +57,111 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
-                    fontFamily: "Vazir"
-                ),
-                onChanged: (str)=>setState(() {}),
+                    fontFamily: "Vazir"),
+                onChanged: (str) => setState(() {}),
                 decoration: new InputDecoration(
                   contentPadding: const EdgeInsets.only(
                       top: 10, right: 5, bottom: 10, left: 5),
                   enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey, width: 2)),
                   border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.redAccent, width: 2)),
+                      borderSide:
+                          BorderSide(color: Colors.redAccent, width: 2)),
                   errorStyle: TextStyle(color: Colors.redAccent),
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 8),
-              child: Text("قابلیتهای پکیج:",
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+              child: Text(
+                "قابلیتهای پکیج:",
                 textDirection: TextDirection.rtl,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
-                    fontFamily: "Vazir"
-                ),
+                    fontFamily: "Vazir"),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 8),
-              child: Text("1.تبدیل رقم به حروف (بدون تبدیل اعداد):",
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+              child: Text(
+                "1.تبدیل رقم به حروف (بدون تبدیل اعداد):",
                 textDirection: TextDirection.rtl,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
-                    fontFamily: "Vazir"
-                ),
+                    fontFamily: "Vazir"),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4,horizontal: 8),
-              child: Text(DigitToWord.toWord(_controller.value.text,StrType.NumWord,isMoney: true,separator: "."),
+              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+              child: Text(
+                DigitToWord.toWord(_controller!.value.text, StrType.NumWord,
+                    isMoney: true, separator: "."),
                 textDirection: TextDirection.rtl,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
-                    fontFamily: "Vazir"
-                ),
+                    fontFamily: "Vazir"),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 8),
-              child: Text("2.تبدیل رقم به حروف (همراه با تبدیل اعداد):",
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+              child: Text(
+                "2.تبدیل رقم به حروف (همراه با تبدیل اعداد):",
                 textDirection: TextDirection.rtl,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
-                    fontFamily: "Vazir"
-                ),
+                    fontFamily: "Vazir"),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4,horizontal: 8),
-              child: Text(DigitToWord.toWord(_controller.value.text,StrType.StrWord),
+              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+              child: Text(
+                DigitToWord.toWord(_controller!.value.text, StrType.StrWord),
                 textDirection: TextDirection.rtl,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
-                    fontFamily: "Vazir"
-                ),
+                    fontFamily: "Vazir"),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 8),
-              child: Text("3.جداسازی سه رقمی اعداد به صورت معمول:",
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+              child: Text(
+                "3.جداسازی سه رقمی اعداد به صورت معمول:",
                 textDirection: TextDirection.rtl,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
-                    fontFamily: "Vazir"
-                ),
+                    fontFamily: "Vazir"),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4,horizontal: 8),
-              child: Text(DigitFormat.convert(_controller.value.text),
+              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+              child: Text(
+                DigitFormat.convert(_controller!.value.text),
                 textDirection: TextDirection.rtl,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
-                    fontFamily: "Vazir"
-                ),
+                    fontFamily: "Vazir"),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 8),
-              child: Text("4.جداسازی سه رقمی اعداد به صورت (TextInputFormatter):",
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+              child: Text(
+                "4.جداسازی سه رقمی اعداد به صورت (TextInputFormatter):",
                 textDirection: TextDirection.rtl,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
-                    fontFamily: "Vazir"
-                ),
+                    fontFamily: "Vazir"),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
               child: TextFormField(
                 keyboardType: TextInputType.number,
                 controller: _controllerInputFromat,
@@ -174,25 +170,23 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
-                    fontFamily: "Vazir"
-                ),
-                onChanged: (str)=>setState(() {}),
+                    fontFamily: "Vazir"),
+                onChanged: (str) => setState(() {}),
                 decoration: new InputDecoration(
                   contentPadding: const EdgeInsets.only(
                       top: 10, right: 5, bottom: 10, left: 5),
                   enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey, width: 2)),
                   border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.redAccent, width: 2)),
+                      borderSide:
+                          BorderSide(color: Colors.redAccent, width: 2)),
                   errorStyle: TextStyle(color: Colors.redAccent),
                 ),
               ),
             ),
-
           ],
         ),
       ),
-
     );
   }
 }
