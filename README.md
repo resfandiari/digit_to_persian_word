@@ -9,7 +9,7 @@ demo:
 ## Add dependency
 ```
 dependencies:
-  digit_to_persian_word: ^1.0.5
+  digit_to_persian_word: ^2.0.0
 ```
 ## Usage
 ```dart
